@@ -25,8 +25,8 @@ pip install --editable ./
  
 # Usage
 ```bash
-git clone https://github.com/pepe-shumpei/pretraining-roberta.git
-cd pretraining-roberta
+git clone https://github.com/pepe-shumpei/roberta-japanese.git
+cd roberta-japanese
 ```
 
 ## (1) Preprocess Japanese Wikipedia
