@@ -2,13 +2,7 @@
 
 # Overview
  
-[RoBERTa](https://aclanthology.org/2021.ccl-1.108/)を日本語Wikipediaを用いて事前学習する
- 
-# Requirement
- 
-* certifi==2021.5.30
-* sentencepiece==0.1.96
-* wikiextractor==3.0.4
+[RoBERTa](https://aclanthology.org/2021.ccl-1.108/)を日本語Wikipediaを用いて事前学習する。
  
 # Installation
  
@@ -24,20 +18,16 @@ pip install --editable ./
 ```
  
 # Usage
-```bash
-git clone https://github.com/pepe-shumpei/roberta-japanese.git
-cd roberta-japanese
-```
 
 ## (1) Preprocess Japanese Wikipedia
-日本語Wikipediaをダウンロードして解凍する
+日本語Wikipediaをダウンロードして解凍する。
 ```bash
 cd data
 wget https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
 bunzip2 jawiki-latest-pages-articles.xml.bz2
 ```
 
-日本語Wikipediaの前処理
+日本語Wikipediaの前処理を行う。
 ```bash
 python -m wikiextractor.WikiExtractor jawiki-latest-pages-articles.xml
 find text/ | grep wiki | awk '{system("cat "$0" >> wiki.txt")}'
@@ -57,8 +47,9 @@ tar -zxvf wiki.txt.tar.gz
 **Note:** (1)もしくは(1')の片方を実行する。
 
 ## (2) Split dataset into train,validation and test data
+train,validation,testデータに分割する。
 ```bash
-bash split_dataset.sh
+bash split-dataset.sh
 ```
 
 ## (3)Tokenize
@@ -77,7 +68,7 @@ python apply-sp.py
 fairsq-preprocessとfairseq-trainを用いてRoBERTaの事前学習を行う。
 fairseq-preprocessとfairseq-trainの詳細は[fairseq Command-line Tools](https://fairseq.readthedocs.io/en/latest/command_line_tools.html)を参照。
 
-まず、fairseq-preprocessを用いてデータをバイナリ化する。
+まず、fairseq-preprocessを用いてデータをバイナリ化する。バイナリ化したデータはdata-bin/wiki-ja/に生成される。
 ```bash
 bash preprocess.sh
 ```
