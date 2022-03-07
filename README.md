@@ -1,12 +1,17 @@
-# Pretraining RoBERTa using Japanese Wikipedia 
+# 日本語Wikipediaを用いたRoBERTa事前学習
 
-# Overview
+# 概要
  
 [RoBERTa](https://aclanthology.org/2021.ccl-1.108/)を日本語Wikipediaを用いて事前学習する。
  
-# Installation
+# インストール
  
 ```bash
+
+#cuda=11.3のpytorchをインストール
+pip3 install torch==1.10.2+cu113 torchvision==0.11.3+cu113 torchaudio==0.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+
+#その他のライブラリをインストール
 pip install -r requirements.txt
 ```
 [fairseq](https://github.com/pytorch/fairseq)のインストール
@@ -17,9 +22,9 @@ cd fairseq
 pip install --editable ./
 ```
  
-# Usage
+# 使用方法
 
-## (1) Preprocess Japanese Wikipedia
+## (1) 日本語Wikipediaの前処理
 日本語Wikipediaをダウンロードして解凍する。
 ```bash
 cd data
@@ -35,7 +40,7 @@ sed -i '/^<[^>]*>$/d' wiki.txt
 sed -i '/^$/d' wiki.txt
 ```
 
-## (1') Preprocess small data
+## (1') 日本語Wikipediaの前処理(小規模 ver)
 日本語Wikipediaのすべてのダウンロードと前処理には時間がかかるため、先頭100万文の日本語Wikipedia(wiki.txt.tar.gz)を用意した。
 
 wiki.txt.tar.gzを解凍する。
@@ -46,13 +51,13 @@ tar -zxvf wiki.txt.tar.gz
 
 **Note:** (1)もしくは(1')の片方を実行する。
 
-## (2) Split dataset into train,validation and test data
+## (2) 訓練データ、開発データ、テストデータに分割
 train,validation,testデータに分割する。
 ```bash
 bash split-dataset.sh
 ```
 
-## (3)Tokenize
+## (3)トーカナイズ
 トーカナイズには[sentencepiece](https://github.com/google/sentencepiece)を用いる。
 
 まず、sentencepieceモデルを訓練する。
@@ -64,7 +69,7 @@ python train-sp.py
 python apply-sp.py
 ```
 
-## (4) Pretraining RoBERTa
+## (4) RoBERTaの事前学習
 fairsq-preprocessとfairseq-trainを用いてRoBERTaの事前学習を行う。
 fairseq-preprocessとfairseq-trainの詳細は[fairseq Command-line Tools](https://fairseq.readthedocs.io/en/latest/command_line_tools.html)を参照。
 
